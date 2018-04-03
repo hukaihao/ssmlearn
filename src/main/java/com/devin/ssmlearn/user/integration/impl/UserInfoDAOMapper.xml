@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.devin.ssmlearn.user.integration.UserInfoDAO">
+	<!-- 查询所有person -->
+	<select id="getUserInfoById" resultType="UserInfo"
+		parameterType="string">
+		select lu.id_learn_user
+		,lu.name
+		,lu.sex,lu.id_type,lu.id_no,lu.birthday,lu.age,lu.phone_no
+		from
+		learn_user lu where lu.id_learn_user = #{idLearnUser}
+	</select>
+
+	<resultMap id="detailUserInfoResultMap" type="UserInfo">
+		<result property="idLearnUser" column="id_learn_user" />
+		<result property="name" column="name" />
+		<result property="sex" column="sex" />
+		<result property="idType" column="id_type" />
+		<result property="idNo" column="id_no" />
+		<result property="birthday" column="birthday" />
+		<result property="age" column="age" />
+		<result property="phoneNo" column="phone_no" />
+	</resultMap>
+
+	<sql id="userInfoColumns">
+		select lu.id_learn_user ,lu.name
+		,lu.sex,lu.id_type,lu.id_no,lu.birthday,lu.age,lu.phone_no from
+		learn_user lu
+	</sql>
+
+	<!-- 查询所有user -->
+	<select id="listAllUserInfo" resultMap="detailUserInfoResultMap">
+		<include refid="userInfoColumns" />
+	</select>
+	<!-- 新增user -->
+	<insert id="addUserInfo" parameterType="UserInfo">
+		insert into
+		learn_user(id_learn_user,name,sex,id_type,id_no,birthday,age,phone_no)
+		values(#{idLearnUser},#{name},#{sex},#{idType},#{idNo},#{birthday},#{age},#{phoneNo})
+	</insert>
+
+</mapper>
